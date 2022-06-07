@@ -1,3 +1,11 @@
+<?php
+require "authHeader.php";
+
+// Get all posts from yard, then break response up at each '"'
+$response = getMessageYardTimeline();
+$pieces = explode('"', $response);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,15 +92,15 @@
     <div class="container">
       <h1 class="center-text main-heading">Answer Submission</h1>
       <div class="main-content">
-        <form class="form-answer-submission" id="form-answer-submission">
+        <form class="form-answer-submission" id="form-answer-submission" method="POST" action="post-answer.php">
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="fname">First Name</label>
-              <input readonly class="form-input" type="text" id="fname" name="fname" value="Icon First Name">
+              <input class="form-input" type="text" id="fname" name="fname" value="Icon First Name">
             </div>
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="lname">Last Name</label>
-              <input readonly class="form-input" type="text" id="lname" name="lname" value="Icon Last Name">
+              <input class="form-input" type="text" id="lname" name="lname" value="Icon Last Name">
             </div>
           </div>
           <div class="form-row flex">
@@ -100,8 +108,25 @@
               <label class="form-label" for="question-select">Select a Question <i class="fa-solid fa-asterisk form-field-required"></i></label>
               <select class="form-select" id="question-select" name="question-select" required>
                 <option value="" disabled selected hidden>- Select a Question -</option>
-                <option value="question-1">Question 1</option>
-                <option value="question-2">Question 2</option>
+                <?php 
+                  // Index of first message
+                  $messageIndex = 7;
+
+                  // Keep track of which message this is on the list.
+                  $valueCount = 0;
+                  
+                  // While there are posts, check to see if the post starts with 'QUESTION'. 
+                  // If it does, add it to the question dropdown list.
+                  while(isset($pieces[$messageIndex])) {
+                    if(substr($pieces[$messageIndex],0,9) == "QUESTION:") {
+                      echo "<option value='$valueCount'>" . substr($pieces[$messageIndex],9) . "</option>";
+                    } 
+                    $valueCount++;
+                    $messageIndex += 84;
+                  }
+                ?>
+                <!-- <option value="question-1">Question 1</option>
+                <option value="question-2">Question 2</option> -->
               </select>
             </div>
             <!--div class="form-label-input flex flex-flow-column unit one-half">
