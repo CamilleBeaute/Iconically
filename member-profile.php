@@ -1,3 +1,15 @@
+<?php 
+    // Call to Get User info API
+    require "authHeader.php";
+
+    $response = getUserInfo($_COOKIE["userId"], $_COOKIE["accessToken"], $_COOKIE["accessTokenSecret"]);
+
+    $pieces = explode('"', $response);
+
+    $memberName = $pieces[7];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +94,7 @@
   <!-- member profile -->
   <div class="member-profile">
     <div class="container">
-      <h1 class="member-profile__heading">Member Name</h1>
+      <h1 class="member-profile__heading"><?php echo $memberName; ?></h1>
       <p class="member-profile__company-name">Company Name Goes Here</p>
       <p class="member-profile__business-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed felis eget velit aliquet sagittis id. Amet justo donec enim diam vulputate ut pharetra. A scelerisque purus semper eget duis. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Feugiat vivamus at augue eget arcu dictum varius duis. Nibh tellus molestie nunc non blandit massa enim nec dui. Iaculis urna id volutpat lacus laoreet non curabitur gravida. Sit amet risus nullam eget felis eget nunc. Ac tortor vitae purus faucibus. Volutpat diam ut venenatis tellus in metus vulputate. Tempus quam pellentesque nec nam aliquam.</p>
       <a class="member-profile__website-button btn-green" href="#">Visit Website <i class="fa-solid fa-up-right-from-square"></i></a>
@@ -98,7 +110,7 @@
   <!-- member questions -->
   <div class="member-questions">
     <div class="container">
-      <h3 class="member-questions-heading">Member Name's Questions</h3>
+      <h3 class="member-questions-heading"><?php echo $memberName; ?>'s Questions</h3>
       <div class="member-questions-content flex">
         <div class="unit member-questions-item one-third">
           <img class="member-questions__video" src="images/question-1.png" alt="Q&A Video">
