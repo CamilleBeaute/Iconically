@@ -26,6 +26,7 @@ function generate_nonce() {
     return md5($mt . $rand); // md5s look nicer than numbers
 }
 
+// Get messages from yard.
 function getMessageYardTimeline() {
 
     global $yardId, $key, $secret, $oauthSignatureMethod, $oauthVersion;
@@ -37,7 +38,8 @@ function getMessageYardTimeline() {
 
     // Sign Request
     $sigBase = "GET&" . rawurlencode($yardUrl) . "&"
-        . rawurlencode("oauth_consumer_key=" . rawurlencode($key)
+        . rawurlencode("count=" . rawurlencode("50") 
+        . "&oauth_consumer_key=" . rawurlencode($key)
         . "&oauth_nonce=" . rawurlencode($nonce)
         . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
         . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
@@ -48,7 +50,8 @@ function getMessageYardTimeline() {
     $oauthSig = base64_encode(hash_hmac("sha1", $sigBase, $sigKey, true));
 
     $requestUrl = $yardUrl . "?"
-        . "oauth_consumer_key=" . rawurlencode($key)
+        . "count=" . rawurlencode("50")
+        . "&oauth_consumer_key=" . rawurlencode($key)
         . "&oauth_nonce=" . rawurlencode($nonce)
         . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
         . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
@@ -61,6 +64,7 @@ function getMessageYardTimeline() {
 
     return $response;
 }
+
 
 // Post message to yard
 function postMessage($message) {
