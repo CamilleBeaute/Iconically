@@ -1,3 +1,14 @@
+<?php 
+    require "authHeader.php";
+    // Call to Get User info API
+    $response = getUserInfo($_COOKIE["userId"], $_COOKIE["accessToken"], $_COOKIE["accessTokenSecret"]);
+
+    $pieces = explode('"', $response);
+
+    $memberName = $pieces[7];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,7 +95,7 @@
     <div class="flex space-between align-center">
       <div class="unit one-third icon-profile-text">
         <div>
-          <h1 class="icon-profile-text__heading">Icon Name</h1>
+          <h1 class="icon-profile-text__heading"><?php echo $memberName; ?></h1>
           <p class="icon-profile-text__title">Icon Title Goes Here</p>
           <p class="icon-profile-text__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <ul class="icon-metrics flex space-between">
@@ -118,7 +129,7 @@
   <!-- icon responses -->
   <div class="icon-responses">
     <div class="container">
-      <h3 class="icon-responses-heading">Icon Name's Responses</h3>
+      <h3 class="icon-responses-heading"><?php echo $memberName; ?>'s Responses</h3>
       <div class="icon-responses-content flex">
         <div class="unit icon-responses-item one-third">
           <img class="icon-responses__video" src="images/question-1.png" alt="Q&A Video">

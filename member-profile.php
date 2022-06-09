@@ -1,3 +1,15 @@
+<?php 
+    // Call to Get User info API
+    require "authHeader.php";
+
+    $response = getUserInfo($_COOKIE["userId"], $_COOKIE["accessToken"], $_COOKIE["accessTokenSecret"]);
+
+    $pieces = explode('"', $response);
+
+    $memberName = $pieces[7];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +30,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
   <script src="js/bucket.js"></script>
-  <title>Answer Submission | Iconically</title>
+  <title>Member Profile | Iconically</title>
 </head>
 <body>
   <!-- header -->
@@ -34,9 +46,9 @@
         </div>
         <nav class="unit two-thirds">
           <ul class="flex align-center justify-end">
+            <!--li><a href="question-submission.html">Submit</a></li-->
             <!--li><a href="#">Search</a></li-->
             <li><a href="who-we-are.html">Who We Are</a></li>
-            <li><a class="active" href="answer-submission.html">Submit</a></li>
             <li class="dropdown">
               <button class="nav-logo-icon-btn nav-dropdown-btn">
                 <img src="images/Iconically_logo_icon.png" alt="Iconically - logo icon" width="53">
@@ -44,14 +56,13 @@
               <ul class="nav-dropdown-content">
                 <!--li><a class="nav-link_primary" href="#">Profile</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <li><a class="nav-link_primary" href="manage-profile-icon.html">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
-                <li><a class="nav-link_primary" href="answer-submission.html">Submit an Answer</a></li>
+                <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
-                <li class="nav-hr"></li>
-                <!--li><a class="nav-link_secondary" href="#">Signup</a></li-->
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <!--li class="nav-hr"></li-->
+                <li><a class="nav-link_secondary" href="signp.html">Signup</a></li>
+                <li><a class="nav-link_secondary" href="login.html">Login</a></li>
               </ul>
             </li>
           </ul>
@@ -64,14 +75,15 @@
               </button>
               <ul class="nav-dropdown-content">
                 <li><a class="nav-link_primary" href="who-we-are.html">Who We Are</a></li>
-                <li><a class="nav-link_primary" href="manage-profile-icon.html">Manage Profile</a></li>
+                <!--li><a class="nav-link_primary" href="#">Profile</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
-                <li><a class="nav-link_primary" href="answer-submission.html">Submit an Answer</a></li>
+                <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="signup.html">Signup</a></li>
+                <li><a class="nav-link_secondary" href="login.html">Login</a></li>
               </ul>
             </li>
           </ul>
@@ -79,65 +91,39 @@
       </div>
     </div>
   </header>
-  <!-- main -->
-  <main>
+  <!-- member profile -->
+  <div class="member-profile">
     <div class="container">
-      <h1 class="center-text main-heading">Answer Submission</h1>
-      <div class="main-content">
-        <form class="form-answer-submission" id="form-answer-submission">
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="fname">First Name</label>
-              <input readonly class="form-input" type="text" id="fname" name="fname" value="Icon First Name">
-            </div>
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="lname">Last Name</label>
-              <input readonly class="form-input" type="text" id="lname" name="lname" value="Icon Last Name">
-            </div>
-          </div>
-          <div class="form-row flex">
-            <div class="form-label-input form-select-field flex flex-flow-column unit whole">
-              <label class="form-label" for="question-select">Select a Question <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <select class="form-select" id="question-select" name="question-select" required>
-                <option value="" disabled selected hidden>- Select a Question -</option>
-                <option value="question-1">Question 1</option>
-                <option value="question-2">Question 2</option>
-              </select>
-            </div>
-            <!--div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="space">Space</label>
-              <input readonly class="form-input" type="text" id="space" name="space">
-            </div-->
-          </div>
-          <div class="form-row flex" id="question-1">
-            <div class="unit whole question-preview">
-              <img class="question-preview-item" src="images/question-1.png" alt="Question Preview">
-            </div>
-          </div>
-          <div class="form-row flex" id="question-2">
-            <div class="unit whole question-preview">
-              <img class="question-preview-item" src="images/question-2.png" alt="Question Preview">
-            </div>
-          </div>
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit whole">
-              <label class="form-label" for="answer-upload">Upload <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="file" id="answer-upload" name="answer-upload" required>
-            </div>
-          </div>
-          <p class="form-text">All submissions must have clear audio and/or video and be under 2 minutes in length. By clicking submit below, you ackowledge and agree to our Privacy Policy and Terms of Use.</p>
-          <button class="form-btn" type="submit" form="form-answer-submission" value="Submit">Submit</button>
-        </form>
-      </div>
-      <h2 class="hero-image__tagline">
-        <span class="hero-image__tagline-white">Advice</span>
-        <span class="hero-image__tagline-darker">+</span>
-        <span class="hero-image__tagline-white">Promotion</span>
-        <span class="hero-image__tagline-darker">=</span>
-        <span class="hero-image__tagline-white">Acceleration</span>
-      </h2>
+      <h1 class="member-profile__heading"><?php echo $memberName; ?></h1>
+      <p class="member-profile__company-name">Company Name Goes Here</p>
+      <p class="member-profile__business-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed felis eget velit aliquet sagittis id. Amet justo donec enim diam vulputate ut pharetra. A scelerisque purus semper eget duis. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Feugiat vivamus at augue eget arcu dictum varius duis. Nibh tellus molestie nunc non blandit massa enim nec dui. Iaculis urna id volutpat lacus laoreet non curabitur gravida. Sit amet risus nullam eget felis eget nunc. Ac tortor vitae purus faucibus. Volutpat diam ut venenatis tellus in metus vulputate. Tempus quam pellentesque nec nam aliquam.</p>
+      <a class="member-profile__website-button btn-green" href="#">Visit Website <i class="fa-solid fa-up-right-from-square"></i></a>
     </div>
-  </main>
+  </div>
+  <!-- spaces
+  <div class="spaces">
+    <div class="container">
+      <h3>Explore Spaces</h3>
+    </div>
+  </div>
+  -->
+  <!-- member questions -->
+  <div class="member-questions">
+    <div class="container">
+      <h3 class="member-questions-heading"><?php echo $memberName; ?>'s Questions</h3>
+      <div class="member-questions-content flex">
+        <div class="unit member-questions-item one-third">
+          <img class="member-questions__video" src="images/question-1.png" alt="Q&A Video">
+        </div>
+        <div class="unit member-questions-item one-third">
+          <img class="member-questions__video" src="images/question-2.png" alt="Q&A Video">
+        </div>
+        <div class="unit member-questions-item one-third">
+          <img class="member-questions__video" src="images/question-1.png" alt="Q&A Video">
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- logo -->
   <div class="logo">
     <picture>
