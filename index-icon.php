@@ -1,4 +1,6 @@
-
+<?php
+require "verify-icon.php";
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,22 +40,21 @@
           <ul class="flex align-center justify-end">
             <!--li><a href="#">Search</a></li-->
             <li><a href="who-we-are.html">Who We Are</a></li>
-            <li><a href="question-submission.html">Submit</a></li>
+            <li><a href="answer-submission.php">Submit</a></li>
             <li class="dropdown">
               <button class="nav-logo-icon-btn nav-dropdown-btn">
                 <img src="images/Iconically_logo_icon.png" alt="Iconically - logo icon" width="53">
               </button>
               <ul class="nav-dropdown-content">
-                <!--li><a class="nav-link_primary" href="#">Profile</a></li-->
+                <li><a class="nav-link_primary" href="manage-profile-icon.php">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <li><a class="nav-link_primary" href="manage-profile-member.html">Manage Profile</a></li>
-                <li><a class="nav-link_primary" href="question-submission.html">Submit a Question</a></li>
-                <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
+                <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
+                <li><a class="nav-link_primary" href="answer-submission.php">Submit an Answer</a></li>
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
                 <!--li><a class="nav-link_secondary" href="#">Signup</a></li-->
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -66,14 +67,14 @@
               </button>
               <ul class="nav-dropdown-content">
                 <li><a class="nav-link_primary" href="who-we-are.html">Who We Are</a></li>
-                <li><a class="nav-link_primary" href="manage-profile-member.html">Manage Profile</a></li>
+                <li><a class="nav-link_primary" href="manage-profile-icon.php">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <li><a class="nav-link_primary" href="question-submission.html">Submit a Question</a></li>
-                <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
+                <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
+                <li><a class="nav-link_primary" href="answer-submission.php">Submit an Answer</a></li>
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>

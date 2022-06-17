@@ -1,3 +1,7 @@
+<?php
+require "verify-member.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +22,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
   <script src="js/bucket.js"></script>
-  <title>Manage Profile | Iconically</title>
+  <title>Question Submission | Iconically</title>
 </head>
 <body>
   <!-- header -->
@@ -36,7 +40,7 @@
           <ul class="flex align-center justify-end">
             <!--li><a href="#">Search</a></li-->
             <li><a href="who-we-are.html">Who We Are</a></li>
-            <li><a href="question-submission.html">Submit</a></li>
+            <li><a class="active" href="question-submission.php">Submit</a></li>
             <li class="dropdown">
               <button class="nav-logo-icon-btn nav-dropdown-btn">
                 <img src="images/Iconically_logo_icon.png" alt="Iconically - logo icon" width="53">
@@ -44,14 +48,14 @@
               <ul class="nav-dropdown-content">
                 <!--li><a class="nav-link_primary" href="#">Profile</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <li><a class="nav-link_primary" href="manage-profile-member.html">Manage Profile</a></li>
-                <li><a class="nav-link_primary" href="question-submission.html">Submit a Question</a></li>
+                <li><a class="nav-link_primary" href="manage-profile-member.php">Manage Profile</a></li>
+                <li><a class="nav-link_primary" href="question-submission.php">Submit a Question</a></li>
                 <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
                 <!--li><a class="nav-link_secondary" href="#">Signup</a></li-->
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -64,14 +68,14 @@
               </button>
               <ul class="nav-dropdown-content">
                 <li><a class="nav-link_primary" href="who-we-are.html">Who We Are</a></li>
-                <li><a class="nav-link_primary" href="manage-profile-member.html">Manage Profile</a></li>
+                <li><a class="nav-link_primary" href="manage-profile-member.php">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <li><a class="nav-link_primary" href="question-submission.html">Submit a Question</a></li>
+                <li><a class="nav-link_primary" href="question-submission.php">Submit a Question</a></li>
                 <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -82,77 +86,41 @@
   <!-- main -->
   <main>
     <div class="container">
-      <h1 class="center-text main-heading">Manage Profile</h1>
+      <h1 class="center-text main-heading">Question Submission</h1>
       <div class="main-content">
-        <form class="form-profile-update" id="form-profile-update" method="POST" action="updateUserInfo.php">
+        <form class="form-question-submission" id="form-question-submission" method="POST" action="post-question.php">
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="fname">First Name <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="fname" name="fname" value="Member First Name" required>
+              <label class="form-label" for="fname">First Name</label>
+              <input class="form-input" type="text" id="fname" name="fname" value="Member First Name">
             </div>
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="lname">Last Name <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="lname" name="lname" value="Member Last Name" required>
-            </div>
-          </div>
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit whole">
-              <label class="form-label" for="email">Email <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="email" id="email" name="email" value="email@email.com" required>
+              <label class="form-label" for="lname">Last Name</label>
+              <input class="form-input" type="text" id="lname" name="lname" value="Member Last Name">
             </div>
           </div>
           <!--div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="birthday">Birthday <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="date" id="birthday" name="birthday" required>
-            </div>
-          </div-->
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="password">Password <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="password" id="password" name="password" value="password" required>
-            </div>
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="password-confirm">Password (Confirm) <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="password" id="password-confirm" name="password-confirm" value="password" required>
-            </div>
-          </div>
-          <hr>
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="company-name">Company Name <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="company-name" name="company-name" required>
-            </div>
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="website">Website <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="website" name="website" required>
-            </div>
-          </div>
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="business-description">Business Description <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <textarea class="form-input" type="textarea" id="business-description" name="business-description" required></textarea>
-            </div>
-            <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="target-audience">Target Audience <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="target-audience" name="target-audience" required>
-            </div>
-          </div>
-          <div class="form-row flex">
             <div class="form-label-input form-select-field flex flex-flow-column unit one-half">
-              <label class="form-label" for="business-stage">Stage of Business <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <select class="form-select" id="business-stage" name="business-stage" required>
-                <option value="" disabled selected hidden>- Select a Business Stage -</option>
-                <option value="pre-revenur">Pre-Revenue</option>
-                <option value="revenue">Revenue</option>
+              <label class="form-label" for="space-select">Select a Space</label>
+              <select class="form-select" id="space-select" name="space-select">
+                <option value="" disabled selected hidden>- Select a Space -</option>
+                <option value="space-1">Space 1</option>
+                <option value="space-2">Space 2</option>
               </select>
             </div>
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="reviews-link">Product/Service Reviews Link <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="reviews-link" name="reviews-link" placeholder="Provide a link to your product/service reviews" required>
+              <label class="form-label" for="space-new">Create a New Space</label>
+              <input class="form-input" type="text" id="space-new" name="space-new">
+            </div>
+          </div-->
+          <div class="form-row flex">
+            <div class="form-label-input flex flex-flow-column unit whole">
+              <label class="form-label" for="question-upload">Upload <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <input class="form-input" type="file" id="question-upload" name="question-upload" required>
             </div>
           </div>
-          <button class="form-btn" type="submit" form="form-profile-update" value="Update Profile">Update Profile</button>
+          <p class="form-text">All submissions must have clear audio and/or video and be under 2 minutes in length. By clicking submit below, you ackowledge and agree to our Privacy Policy and Terms of Use.</p>
+          <button class="form-btn" type="submit" form="form-question-submission" value="Submit">Submit</button>
         </form>
       </div>
       <h2 class="hero-image__tagline">
@@ -164,6 +132,23 @@
       </h2>
     </div>
   </main>
+  <!-- question examples -->
+  <div class="question-examples">
+    <div class="container">
+      <h3 class="question-examples-heading">Question Examples</h3>
+      <div class="question-examples-content flex">
+        <div class="unit question-examples-item one-third">
+          <img class="question-examples__video" src="images/question-1.png" alt="Q&A Video">
+        </div>
+        <div class="unit question-examples-item one-third">
+          <img class="question-examples__video" src="images/question-2.png" alt="Q&A Video">
+        </div>
+        <div class="unit question-examples-item one-third">
+          <img class="question-examples__video" src="images/question-1.png" alt="Q&A Video">
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- logo -->
   <div class="logo">
     <picture>

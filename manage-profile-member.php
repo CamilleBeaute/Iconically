@@ -1,3 +1,7 @@
+<?php
+require "verify-member.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +40,7 @@
           <ul class="flex align-center justify-end">
             <!--li><a href="#">Search</a></li-->
             <li><a href="who-we-are.html">Who We Are</a></li>
-            <li><a href="answer-submission.html">Submit</a></li>
+            <li><a href="question-submission.php">Submit</a></li>
             <li class="dropdown">
               <button class="nav-logo-icon-btn nav-dropdown-btn">
                 <img src="images/Iconically_logo_icon.png" alt="Iconically - logo icon" width="53">
@@ -44,14 +48,14 @@
               <ul class="nav-dropdown-content">
                 <!--li><a class="nav-link_primary" href="#">Profile</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <li><a class="nav-link_primary" href="manage-profile-icon.html">Manage Profile</a></li>
-                <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
-                <li><a class="nav-link_primary" href="answer-submission.html">Submit an Answer</a></li>
+                <li><a class="nav-link_primary" href="manage-profile-member.php">Manage Profile</a></li>
+                <li><a class="nav-link_primary" href="question-submission.php">Submit a Question</a></li>
+                <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
                 <!--li><a class="nav-link_secondary" href="#">Signup</a></li-->
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -64,14 +68,14 @@
               </button>
               <ul class="nav-dropdown-content">
                 <li><a class="nav-link_primary" href="who-we-are.html">Who We Are</a></li>
-                <li><a class="nav-link_primary" href="manage-profile-icon.html">Manage Profile</a></li>
+                <li><a class="nav-link_primary" href="manage-profile-member.php">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
-                <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
-                <li><a class="nav-link_primary" href="answer-submission.html">Submit an Answer</a></li>
+                <li><a class="nav-link_primary" href="question-submission.php">Submit a Question</a></li>
+                <!--li><a class="nav-link_primary" href="#">Submit an Answer</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -88,23 +92,25 @@
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="fname">First Name <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="fname" name="fname" value="Icon First Name" required>
+              <input class="form-input" type="text" id="fname" name="fname" value="Member First Name" required>
             </div>
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="lname">Last Name <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="lname" name="lname" value="Icon Last Name" required>
+              <input class="form-input" type="text" id="lname" name="lname" value="Member Last Name" required>
             </div>
           </div>
           <div class="form-row flex">
-            <!--div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="birthday">Birthday <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="date" id="birthday" name="birthday" placeholder="mm/dd/yyyy" required>
-            </div-->
             <div class="form-label-input flex flex-flow-column unit whole">
               <label class="form-label" for="email">Email <i class="fa-solid fa-asterisk form-field-required"></i></label>
               <input class="form-input" type="email" id="email" name="email" value="email@email.com" required>
             </div>
           </div>
+          <!--div class="form-row flex">
+            <div class="form-label-input flex flex-flow-column unit one-half">
+              <label class="form-label" for="birthday">Birthday <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <input class="form-input" type="date" id="birthday" name="birthday" required>
+            </div>
+          </div-->
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="password">Password <i class="fa-solid fa-asterisk form-field-required"></i></label>
@@ -115,44 +121,39 @@
               <input class="form-input" type="password" id="password-confirm" name="password-confirm" value="password" required>
             </div>
           </div>
+          <hr>
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="photo-upload">Profile Photo <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="file" id="photo-upload" name="photo-upload" required>
+              <label class="form-label" for="company-name">Company Name <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <input class="form-input" type="text" id="company-name" name="company-name" required>
             </div>
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="icon-title">Title <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="icon-title" name="icon-title" value="Icon Title" required>
-            </div>
-          </div>
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit whole">
-              <label class="form-label" for="icon-intro">Introduction <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <textarea class="form-input" id="icon-intro" name="icon-intro" placeholder="Tell us about yourself!" required></textarea>
-            </div>
-          </div>
-          <div class="form-row flex">
-            <div class="form-label-input flex flex-flow-column unit one-third">
-              <label class="form-label" for="followers">Followers <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="followers" name="followers" required>
-            </div>
-            <div class="form-label-input flex flex-flow-column unit one-third">
-              <label class="form-label" for="views">Views <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="views" name="views" required>
-            </div>
-            <div class="form-label-input flex flex-flow-column unit one-third">
-              <label class="form-label" for="engagement">Engagement <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="text" id="engagement" name="engagement" required>
+              <label class="form-label" for="website">Website <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <input class="form-input" type="text" id="website" name="website" required>
             </div>
           </div>
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="audience">Audience Demographic</label>
-              <input class="form-input" type="text" id="audience" name="audience">
+              <label class="form-label" for="business-description">Business Description <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <textarea class="form-input" type="textarea" id="business-description" name="business-description" required></textarea>
             </div>
             <div class="form-label-input flex flex-flow-column unit one-half">
-              <label class="form-label" for="interests">Interests</label>
-              <input class="form-input" type="text" id="interests" name="interests">
+              <label class="form-label" for="target-audience">Target Audience <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <input class="form-input" type="text" id="target-audience" name="target-audience" required>
+            </div>
+          </div>
+          <div class="form-row flex">
+            <div class="form-label-input form-select-field flex flex-flow-column unit one-half">
+              <label class="form-label" for="business-stage">Stage of Business <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <select class="form-select" id="business-stage" name="business-stage" required>
+                <option value="" disabled selected hidden>- Select a Business Stage -</option>
+                <option value="pre-revenur">Pre-Revenue</option>
+                <option value="revenue">Revenue</option>
+              </select>
+            </div>
+            <div class="form-label-input flex flex-flow-column unit one-half">
+              <label class="form-label" for="reviews-link">Product/Service Reviews Link <i class="fa-solid fa-asterisk form-field-required"></i></label>
+              <input class="form-input" type="text" id="reviews-link" name="reviews-link" placeholder="Provide a link to your product/service reviews" required>
             </div>
           </div>
           <button class="form-btn" type="submit" form="form-profile-update" value="Update Profile">Update Profile</button>
