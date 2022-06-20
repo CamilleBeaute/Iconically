@@ -83,6 +83,7 @@ function postMessage($message) {
         . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
         . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
         . "&oauth_version=" . rawurlencode($oauthVersion)
+        . "&upload_attachments=" . rawurlencode("1")
         . "&yard_id=" . rawurlencode($yardId));
 
     $sigKey = rawurlEncode($secret). "&" . rawurlEncode($_COOKIE["accessTokenSecret"]);
@@ -107,6 +108,7 @@ function postMessage($message) {
         . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
         . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
         . "&oauth_version=". rawurlencode($oauthVersion) 
+        . "&upload_attachments=" . rawurlencode("1")
         . "&yard_id=" . rawurlencode($yardId);
 
     // Create request context for POST
@@ -117,6 +119,118 @@ function postMessage($message) {
         
     // Send request
     $result = @file_get_contents($requestUrl, false, $context);
+
+    $pieces = explode('"', $result);
+
+    // Upload ID returned from request
+    $uploadId = $pieces[15];
+
+    // If a file was uploaded, send request to attach file to the message.
+    if(file_exists($_FILES['answer-upload']['tmp_name'])){
+
+        $uploadUrl = "https://upload.connectyard.com";
+
+        // JSON encoded representation of message attachment
+        $attachment = json_encode(array("name" => $_FILES['answer-upload']['name'], "content" => base64_encode(file_get_contents($_FILES['answer-upload']['tmp_name'])), "size" => $_FILES['answer-upload']['size']));
+        $attachment = "[" . $attachment . "]";
+        
+        // Sign Request
+        $sigBase = "POST&" . rawurlencode($uploadUrl) . "&"
+            . rawurlencode("attachments=" . rawurlEncode($attachment)
+            . "&oauth_consumer_key=" . rawurlencode($key)
+            . "&oauth_nonce=" . rawurlencode($nonce)
+            . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
+            . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
+            . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
+            . "&oauth_version=" . rawurlencode($oauthVersion)
+            . "&upload_id=" . rawurlencode($uploadId));
+
+        $sigKey = rawurlEncode($secret). "&" . rawurlEncode($_COOKIE["accessTokenSecret"]);
+        $oauthSig = base64_encode(hash_hmac("sha1", $sigBase, $sigKey, true));
+
+        // Build signed request URL
+        $requestUrl = $uploadUrl . "?"
+            . "oauth_consumer_key=" . rawurlencode($key)
+            . "&oauth_nonce=" . rawurlencode($nonce)
+            . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
+            . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
+            . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
+            . "&oauth_version=". rawurlencode($oauthVersion)
+            . "&oauth_signature=" . rawurlencode($oauthSig);
+        
+        // Create request body
+        $data = "attachments=" . rawurlEncode($attachment)
+            . "&oauth_consumer_key=" . rawurlencode($key)
+            . "&oauth_nonce=" . rawurlencode($nonce)
+            . "&oauth_signature=" . rawurlencode($oauthSig)
+            . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
+            . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
+            . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
+            . "&oauth_version=". rawurlencode($oauthVersion) 
+            . "&upload_id=" . rawurlencode($uploadId);
+
+        // Create request context for POST
+        $context = stream_context_create(array("http" => array(
+            "method" => "POST",
+            "header" => "Content-type: application/x-www-form-urlencoded; charset=UTF-8\r\n", 
+            "content" => $data)));
+
+        // Send request
+        $result = @file_get_contents($requestUrl, false, $context);
+
+    } else if(file_exists($_FILES['question-upload']['tmp_name'])){
+
+        $uploadUrl = "https://upload.connectyard.com";
+
+        // JSON encoded representation of message attachment
+        $attachment = json_encode(array("name" => $_FILES['question-upload']['name'], "content" => base64_encode(file_get_contents($_FILES['question-upload']['tmp_name'])), "size" => $_FILES['question-upload']['size']));
+        $attachment = "[" . $attachment . "]";
+        
+        // Sign Request
+        $sigBase = "POST&" . rawurlencode($uploadUrl) . "&"
+            . rawurlencode("attachments=" . rawurlEncode($attachment)
+            . "&oauth_consumer_key=" . rawurlencode($key)
+            . "&oauth_nonce=" . rawurlencode($nonce)
+            . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
+            . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
+            . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
+            . "&oauth_version=" . rawurlencode($oauthVersion)
+            . "&upload_id=" . rawurlencode($uploadId));
+
+        $sigKey = rawurlEncode($secret). "&" . rawurlEncode($_COOKIE["accessTokenSecret"]);
+        $oauthSig = base64_encode(hash_hmac("sha1", $sigBase, $sigKey, true));
+
+        // Build signed request URL
+        $requestUrl = $uploadUrl . "?"
+            . "oauth_consumer_key=" . rawurlencode($key)
+            . "&oauth_nonce=" . rawurlencode($nonce)
+            . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
+            . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
+            . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
+            . "&oauth_version=". rawurlencode($oauthVersion)
+            . "&oauth_signature=" . rawurlencode($oauthSig);
+        
+        // Create request body
+        $data = "attachments=" . rawurlEncode($attachment)
+            . "&oauth_consumer_key=" . rawurlencode($key)
+            . "&oauth_nonce=" . rawurlencode($nonce)
+            . "&oauth_signature=" . rawurlencode($oauthSig)
+            . "&oauth_signature_method=" . rawurlencode($oauthSignatureMethod)
+            . "&oauth_timestamp=" . rawurlencode($oauthTimestamp)
+            . "&oauth_token=" . rawurlencode($_COOKIE["accessToken"])
+            . "&oauth_version=". rawurlencode($oauthVersion) 
+            . "&upload_id=" . rawurlencode($uploadId);
+
+        // Create request context for POST
+        $context = stream_context_create(array("http" => array(
+            "method" => "POST",
+            "header" => "Content-type: application/x-www-form-urlencoded; charset=UTF-8\r\n", 
+            "content" => $data)));
+
+        // Send request
+        $result = @file_get_contents($requestUrl, false, $context);
+
+    }       
 
     return $result;
 

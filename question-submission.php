@@ -88,7 +88,7 @@ require "verify-member.php";
     <div class="container">
       <h1 class="center-text main-heading">Question Submission</h1>
       <div class="main-content">
-        <form class="form-question-submission" id="form-question-submission" method="POST" action="post-question.php">
+        <form class="form-question-submission" id="form-question-submission" method="POST" action="post-question.php" enctype="multipart/form-data">
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="fname">First Name</label>
@@ -116,7 +116,7 @@ require "verify-member.php";
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit whole">
               <label class="form-label" for="question-upload">Upload <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="file" id="question-upload" name="question-upload" required>
+              <input class="form-input" type="file" id="question-upload" name="question-upload" accept="audio/*, video/*" required>
             </div>
           </div>
           <p class="form-text">All submissions must have clear audio and/or video and be under 2 minutes in length. By clicking submit below, you ackowledge and agree to our Privacy Policy and Terms of Use.</p>

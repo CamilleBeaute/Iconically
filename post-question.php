@@ -9,15 +9,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // Post message to yard
     $result = postMessage($message);
 
-    // Keep sending the request until it is successful.
-    while($result === false) { 
+    $MAX_COUNT = 0;
+
+    // Keep sending the request until it is successful a maximum of 3 times.
+    while($result === false && $MAX_COUNT < 3) { 
         $result = postMessage($message);
+        $MAX_COUNT++;
     }
 
-    header("Location: index-member.html");
+    header("Location: index-member.php");
 
 }else {
-    header("Location: question-submission.html");
+    header("Location: question-submission.php");
 }
 
 ?>

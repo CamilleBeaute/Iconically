@@ -170,9 +170,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     // If the user is an icon, redirect to icon index, otherwise if they are not redirect to member index.
     if(getcookie("icon"))
-        header("Location: index-icon.html");
+        header("Location: index-icon.php");
     else if(!getcookie("icon"))
-        header("Location: index-member.html");
+        header("Location: index-member.php");
 
 // Do not allow user to access this file through the search bar.
 } else {

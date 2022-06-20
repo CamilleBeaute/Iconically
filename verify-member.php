@@ -6,8 +6,8 @@ if(!(isset($_COOKIE['userId']) && isset($_COOKIE['accessToken']) && isset($_COOK
 }
 
 // If the user is an icon, redirect them to icon's index page.
-if($_COOKIE['icon']) {
-    header("Location: index-icon.php");
-}
+// if($_COOKIE['icon']) {
+//     header("Location: index-icon.php");
+// }
 
 ?>

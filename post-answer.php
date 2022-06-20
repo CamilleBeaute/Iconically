@@ -8,11 +8,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $questionIndex=$_POST["question-select"];
 
     // Index of chosen question's message (first message is index 7, each subsequent message is offset by 84)
-    $messageIndex = 7+(84*$questionIndex);
+    // $messageIndex = 7+(84*$questionIndex);
 
     // Call get yard posts request.
-    $response = getMessageYardTimeline();
+    $response = @getMessageYardTimeline();
     $pieces = explode('"', $response);
+
+    $question = "";     // Initialize question variable
+    $messageIndex = 7;  // Index of first message
+
+    // Go through each post to find the current question, incrementing by 84 if the post does not
+    // Have any attachments and 16 if it does.
+    for($i=0; $i<$questionIndex; $i++) {
+        $messageIndex += 84;
+        if($pieces[$messageIndex] == "canDelete") {
+            $messageIndex += 16;
+        }
+    }
 
     // Message to be posted.
     $message = "ANSWER FROM: " . preg_replace('/\s+/', '', ucfirst($_POST['fname'])) 
@@ -22,15 +34,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // Post message to yard.
     $result = postMessage($message);
 
-    // Keep sending the request until it is successful.
-    while($result === false) {
+    $MAX_COUNT = 0;
+
+    // Keep sending the request until it is successful a maximum of 3 times.
+    while($result === false && $MAX_COUNT < 3) {
         $result = postMessage($message);
+        $MAX_COUNT++;
     }
 
-    header("Location: index-icon.html");
+    header("Location: index-icon.php");
 
 } else {
-    header("Location: answer-submission.html");
+    header("Location: answer-submission.php");
 }
 
 ?>
