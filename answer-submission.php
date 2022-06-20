@@ -1,9 +1,23 @@
 <?php
 require "authHeader.php";
+require "verify-icon.php";
 
 // Get all posts from yard, then break response up at each '"'
-$response = getMessageYardTimeline();
+$response = @getMessageYardTimeline();
+
+$MAX_COUNT = 0;
+
+// Keep sending the request until it is successful; a maximum of 3 times.
+while($response === false && $MAX_COUNT < 3) { 
+  $response = @getMessageYardTimeline();
+  $MAX_COUNT++;
+}
+
+
 $pieces = explode('"', $response);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +58,7 @@ $pieces = explode('"', $response);
           <ul class="flex align-center justify-end">
             <!--li><a href="#">Search</a></li-->
             <li><a href="who-we-are.html">Who We Are</a></li>
-            <li><a class="active" href="answer-submission.html">Submit</a></li>
+            <li><a class="active" href="answer-submission.php">Submit</a></li>
             <li class="dropdown">
               <button class="nav-logo-icon-btn nav-dropdown-btn">
                 <img src="images/Iconically_logo_icon.png" alt="Iconically - logo icon" width="53">
@@ -54,12 +68,12 @@ $pieces = explode('"', $response);
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
                 <li><a class="nav-link_primary" href="manage-profile-icon.html">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
-                <li><a class="nav-link_primary" href="answer-submission.html">Submit an Answer</a></li>
+                <li><a class="nav-link_primary" href="answer-submission.php">Submit an Answer</a></li>
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
                 <!--li><a class="nav-link_secondary" href="#">Signup</a></li-->
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -75,11 +89,11 @@ $pieces = explode('"', $response);
                 <li><a class="nav-link_primary" href="manage-profile-icon.html">Manage Profile</a></li>
                 <!--li><a class="nav-link_primary" href="#">Votes</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Submit a Question</a></li-->
-                <li><a class="nav-link_primary" href="answer-submission.html">Submit an Answer</a></li>
+                <li><a class="nav-link_primary" href="answer-submission.php">Submit an Answer</a></li>
                 <!--li><a class="nav-link_primary" href="#">Create a Space</a></li-->
                 <!--li><a class="nav-link_primary" href="#">Favorite Channels</a></li-->
                 <li class="nav-hr"></li>
-                <li><a class="nav-link_secondary" href="#">Logout</a></li>
+                <li><a class="nav-link_secondary" href="logout.php">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -92,7 +106,7 @@ $pieces = explode('"', $response);
     <div class="container">
       <h1 class="center-text main-heading">Answer Submission</h1>
       <div class="main-content">
-        <form class="form-answer-submission" id="form-answer-submission" method="POST" action="post-answer.php">
+        <form class="form-answer-submission" id="form-answer-submission" method="POST" action="post-answer.php" enctype="multipart/form-data">
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit one-half">
               <label class="form-label" for="fname">First Name</label>
@@ -109,11 +123,9 @@ $pieces = explode('"', $response);
               <select class="form-select" id="question-select" name="question-select" required>
                 <option value="" disabled selected hidden>- Select a Question -</option>
                 <?php 
-                  // Index of first message
-                  $messageIndex = 7;
-
-                  // Keep track of which message this is on the list.
-                  $valueCount = 0;
+                  
+                  $messageIndex = 7; // Index of first message
+                  $valueCount = 0; // Keep track of which message this is on the list of messages.
                   
                   // While there are posts, check to see if the post starts with 'QUESTION'. 
                   // If it does, add it to the question dropdown list.
@@ -121,9 +133,17 @@ $pieces = explode('"', $response);
                     if(substr($pieces[$messageIndex],0,9) == "QUESTION:") {
                       echo "<option value='$valueCount'>" . substr($pieces[$messageIndex],9) . "</option>";
                     } 
-                    $valueCount++;
-                    $messageIndex += 84;
+                    $valueCount++;        // Next message has a value count 1 higher than current.
+                    $messageIndex += 84;  // Each message should be 84 pieces away from the last.
+                    
+                    // Account for the fact that posts with attachments have more pieces 
+                    // than posts without them.
+                    if($pieces[$messageIndex] == "canDelete") {
+                      $messageIndex += 16;
+                    }
+                    
                   }
+                
                 ?>
                 <!-- <option value="question-1">Question 1</option>
                 <option value="question-2">Question 2</option> -->
@@ -140,14 +160,14 @@ $pieces = explode('"', $response);
             </div>
           </div>
           <div class="form-row flex" id="question-2">
-            <div class="unit whole question-preview">
-              <img class="question-preview-item" src="images/question-2.png" alt="Question Preview">
+            <div class="unit whole question-preview" id="question-preview">
+              <!--img class="question-preview-item" src="images/question-2.png" alt="Question Preview"-->
             </div>
           </div>
           <div class="form-row flex">
             <div class="form-label-input flex flex-flow-column unit whole">
               <label class="form-label" for="answer-upload">Upload <i class="fa-solid fa-asterisk form-field-required"></i></label>
-              <input class="form-input" type="file" id="answer-upload" name="answer-upload" required>
+              <input class="form-input" type="file" id="answer-upload" name="answer-upload" accept="audio/*, video/*" required>
             </div>
           </div>
           <p class="form-text">All submissions must have clear audio and/or video and be under 2 minutes in length. By clicking submit below, you ackowledge and agree to our Privacy Policy and Terms of Use.</p>

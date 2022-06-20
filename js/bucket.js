@@ -32,6 +32,23 @@ $(document).ready(function(){
 
   //FORM LOGIC
   $("#question-select").change(function() {
+    $.post(
+      'update-answer-submission.php', 
+      {questionIndex : $(this).val()}, 
+      function(output) {
+        if(output['name'].includes('.m4a')) {
+          $('#question-preview').empty();
+          $('#question-preview').append('<video controls><source src="' + output['image'] + '" type="video/mp4"><source src="' + output['image'] + '" type="video/webm"><source src="' + output['image'] + '" type="video/ogg">Your browser does not support the audio tag.</video>');
+          $('#question-2').show();
+          $('#space').attr('value', 'Space 2');
+        } else {
+          $('#question-preview').empty();
+          $('#question-preview').append('<img src="' + output['image'] + "'>");
+          $('#question-2').show();
+          $('#space').attr('value', 'Space 2');
+        }
+      },
+      'json');
     if ($(this).val() == "question-1") {
       $('#question-1').show();
       $('#question-2').hide();
